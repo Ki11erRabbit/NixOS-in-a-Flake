@@ -6,11 +6,10 @@
     flake-modules.url = "github:Ki11erRabbit/NixOS-in-a-Flake-Modules";
   };
 
-  outputs = { self, flake-modules, ... }: let 
-    modulesList = import ./modules.nix { inherit flake-modules; };
-  in {
+  outputs = { self, flake-modules, ... }: {
     nixSystem = { system, modules, pkgs, systemName }: let 
         lib = pkgs.lib;
+        modulesList = (import ./modules.nix {inherit pkgs lib; }).modules;
         mergeModules = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
         mergedModules = mergeModules { inherit modules; };
         evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else m) modulesList;

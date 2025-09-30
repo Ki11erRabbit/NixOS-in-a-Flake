@@ -1,7 +1,8 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, ... }:
 let 
     allModules = [
-        (import ./modules/dummy.nix { inherit pkgs lib config; })
+        (import ./modules/dummy.nix)
     ];
-in
-    lib.mkMerge allModules
+in {
+    modules = allModules;
+}
