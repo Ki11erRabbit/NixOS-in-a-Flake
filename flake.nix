@@ -25,7 +25,7 @@
 
             systemPackages = pkgs.buildEnv {
                 name = systemName;
-                paths = lib.concatMappAttrs (_: v: v or []) (map (m: m.packages or {}) evluated);
+                paths = lib.concatMappAttrs (_: v: v // []) (map (m: m.packages or {}) evaluated);
             };
         in {
             packages = systemPackages;
