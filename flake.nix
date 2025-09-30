@@ -35,7 +35,8 @@
         defaultPackages."${system}" = evalModules { inherit modules pkgs systemName; };
 
         apps."${system}" = {
-                rebuild = pkgs.writeShellApplication {
+                rebuild = let 
+                script = pkgs.writeShellApplication {
                     name = "rebuild";
                     text = ''
                             set -euo pipefail
@@ -87,6 +88,10 @@
                             esac
                         '';
                     };
+                in {
+                    type = "app";
+                    program = "${script}/bin/rebuild";
+                };
             };
       };
   };
