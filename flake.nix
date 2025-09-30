@@ -11,8 +11,8 @@
         lib = pkgs.lib;
         modulesList = (import ./modules.nix {inherit pkgs lib; }).modules;
         mergeModules = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
-        mergedModules = mergeModules modules;
-        evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else {}) modulesList;
+        config = mergeModules modules;
+        evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib config; } else {}) modulesList;
         systemPackages = pkgs.buildEnv {
             name = systemName;
             paths = lib.concatMap (m: m.packages or []) evalModules;
