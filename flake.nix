@@ -14,6 +14,7 @@
 
     mergeResources = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
 
+    modules = import ./modules.nix { inherit flake-modules; };
     evalModules = { modules, pkgs, systemName, config }:
         let 
             evaluated = map (m:
