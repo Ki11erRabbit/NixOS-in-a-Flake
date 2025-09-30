@@ -56,9 +56,10 @@
                                 nix build .#resources -o "$RESOURCES_PROFILE"
 
                                 echo "Syncing resources..."
-                                for resName in $(ls "$RESOURCES_PROFILE"); do
-                                  mkdir -p "/etc/$resName"
-                                  cp -r "$RESOURCES_PROFILE/$resName/"* "/etc/$resName/"
+                                for resName in "$RESOURCES_PROFILE"/*/; do
+                                    resDir=$(basename "$resName")
+                                  mkdir -p "/etc/$resDir"
+                                  cp -r "$$resName/"* "/etc/$resDir/"
                                 done
                                 ;;
                               dry-run)
@@ -70,9 +71,10 @@
                                 nix-env --profile "$SYSTEM_PROFILE" --rollback || true
                                 nix-env --profile "$RESOURCES_PROFILE" --rollback || true
                                 GEN=$(readlink -f "$RESOURCES_PROFILE")
-                                for resName in $(ls "$GEN"); do
-                                  mkdir -p "/etc/$resName"
-                                  cp -r "$GEN/$resName/"* "/etc/$resName/"
+                                for resName in "$GEN"/*/; do
+                                  resDir=$(basename "$resName")
+                                  mkdir -p "/etc/$resDir"
+                                  cp -r "$GEN/$resName/"* "/etc/$resDir/"
                                 done
                                 ;;
                               list-generations)
