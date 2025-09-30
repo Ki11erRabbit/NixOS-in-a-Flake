@@ -37,9 +37,7 @@
         apps."${system}" = {
                 rebuild = {
                     type = "app";
-                    program = pkgs.writeShellApplication {
-                        name = "rebuild";
-                        text = ''
+                    program = ''
                             set -euo pipefail
                             cmd="switch"
                             if [ $# -gt 0 ]; then cmd="$1"; shift; fi
@@ -88,7 +86,6 @@
                                 ;;
                             esac
                         '';
-                    };
                 };
             };
       };
