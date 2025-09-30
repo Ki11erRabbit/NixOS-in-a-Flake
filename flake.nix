@@ -9,13 +9,13 @@
   outputs = { self, flake-modules, ... }: {
     nixSystem = { system, modules, pkgs, systemName }: let 
         lib = pkgs.lib;
-        modulesList = (import ./modules.nix {inherit pkgs lib; }).modules;
+        modulesList = (import ./modules.nix {inherit pkgs lib; }).modules.list;
         mergeModules = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
         mergedModules = mergeModules { inherit modules; };
         evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else {}) modulesList;
         systemPackages = pkgs.buildEnv {
             name = systemName;
-            paths = pkgs.lib.concatMapAttrs (_: v: v // []) (map (m: m.packages or {}) modulesList);
+            paths = lib.concatMap (m: m.packages or []) evalModules;
         };
     in {
         packages.${system} = {
