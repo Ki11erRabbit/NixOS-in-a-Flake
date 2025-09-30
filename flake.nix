@@ -15,7 +15,7 @@
         evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else {}) modulesList;
         systemPackages = pkgs.buildEnv {
             name = systemName;
-            paths = pkgs.lib.concatMappAttrs (_: v: v // []) (map (m: m.packages or {}) modulesList);
+            paths = pkgs.lib.concatMapAttrs (_: v: v // []) (map (m: m.packages or {}) modulesList);
         };
     in {
         packages.${system} = {
