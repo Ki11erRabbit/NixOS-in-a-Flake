@@ -46,7 +46,7 @@
                             nix build .#resources -o "$RESOURCES_PROFILE"
 
                             echo "Syncing resources..."
-                            for resName in "$RESOURCES_PROFILE"/*/; do
+                            for resName in "$RESOURCES_PROFILE"/*; do
                                 resDir=$(basename "$resName")
                                 echo "resName: '$resName'"
                                 echo "resDir: '$resName'"
