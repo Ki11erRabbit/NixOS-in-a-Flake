@@ -48,6 +48,8 @@
                             echo "Syncing resources..."
                             for resName in "$RESOURCES_PROFILE"/*/; do
                                 resDir=$(basename "$resName")
+                                echo "resName: '$resName'"
+                                echo "resDir: '$resName'"
                               mkdir -p "/etc/$resDir"
                               cp -r "$resName/"* "/etc/$resDir/"
                             done
