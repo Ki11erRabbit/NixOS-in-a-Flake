@@ -80,5 +80,5 @@
                 program = "${script}/bin/rebuild";
             };
     }
-  }
+  };
 }
