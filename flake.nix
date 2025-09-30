@@ -12,7 +12,8 @@
   in {
     nixSystem = { system, modules, pkgs, systemName }: let 
         mergedModules = mergeModules { inherit modules; };
-        evalModules = map (m: if builtins.isFunction m then m { inherit pkgs pkgs.lib mergedModules; } else m) modulesList;
+        lib = pkgs.lib;
+        evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else m) modulesList;
         systemPackages = pkgs.buildEnv {
             name = systemName;
             paths = pkgs.lib.concatMappAttrs (_: v: v // []) (map (m: m.packages or {}) modulesList);
