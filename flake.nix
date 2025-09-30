@@ -36,8 +36,7 @@
         let
             pkgs = import nixpkgs { inherit system; };
         in
-        { modules, systemName }: evalModules { inherit modules pkgs systemName; };
-    );
+        { modules, systemName }: evalModules { inherit modules pkgs systemName; });
 
     apps = eachSystem (system:
         let pkgs = import nixpkgs { inherit system; };
