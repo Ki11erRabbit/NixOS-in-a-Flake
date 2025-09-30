@@ -32,7 +32,7 @@
                 resources = mergedResources;
             };
       in {
-        defaultPackages."${system}" = evalModules { inherit modules pkgs systemName; };
+        defaultPackages."${system}" = evalModules { inherit modules pkgs systemName config; };
 
         apps."${system}" = {
                 rebuild = let 
