@@ -23,7 +23,7 @@
             resources = pkgs.buildEnv {
                 name = "${systemName}-resources";
                 paths = lib.concatMap (m: m.resources or []) evalModules;
-            }
+            };
         };
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
