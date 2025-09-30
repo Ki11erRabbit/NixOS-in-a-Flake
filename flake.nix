@@ -35,9 +35,9 @@
         defaultPackages."${system}" = evalModules { inherit modules pkgs systemName; };
 
         apps."${system}" = {
-                rebuild = {
-                    type = "app";
-                    program = ''
+                rebuild = pkgs.writeShellApplication {
+                    name = "rebuild";
+                    text = ''
                             set -euo pipefail
                             cmd="switch"
                             if [ $# -gt 0 ]; then cmd="$1"; shift; fi
@@ -86,7 +86,7 @@
                                 ;;
                             esac
                         '';
-                };
+                    };
             };
       };
   };
