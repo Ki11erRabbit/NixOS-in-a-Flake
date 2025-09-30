@@ -59,7 +59,7 @@
                                 for resName in "$RESOURCES_PROFILE"/*/; do
                                     resDir=$(basename "$resName")
                                   mkdir -p "/etc/$resDir"
-                                  cp -r "$$resName/"* "/etc/$resDir/"
+                                  cp -r "$resName/"* "/etc/$resDir/"
                                 done
                                 ;;
                               dry-run)
