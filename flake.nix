@@ -7,12 +7,12 @@
   };
 
   outputs = { self, flake-modules, ... }: let 
-    mergeModules = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
     modulesList = import ./modules.nix { inherit flake-modules; };
   in {
     nixSystem = { system, modules, pkgs, systemName }: let 
-        mergedModules = mergeModules { inherit modules; };
         lib = pkgs.lib;
+        mergeModules = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
+        mergedModules = mergeModules { inherit modules; };
         evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else m) modulesList;
         systemPackages = pkgs.buildEnv {
             name = systemName;
