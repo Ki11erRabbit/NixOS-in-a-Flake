@@ -12,14 +12,19 @@
         modulesList = (import ./modules.nix {inherit pkgs lib; }).modules;
         mergeModules = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
         mergedModules = mergeModules { inherit modules; };
-        evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else m) modulesList;
+        evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib mergedModules; } else {}) modulesList;
         systemPackages = pkgs.buildEnv {
             name = systemName;
-            system = systemName;
             paths = pkgs.lib.concatMappAttrs (_: v: v // []) (map (m: m.packages or {}) modulesList);
         };
     in {
-        packages.${system} = systemPackages;
+        packages.${system} = {
+            system = systemPackages;
+            resources = pkgs.buildEnv {
+                name = "${systemName}-resources";
+                paths = lib.concatMap (m: m.resources or []) evalModules;
+            }
+        };
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
