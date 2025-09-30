@@ -79,6 +79,6 @@
                 type = "app";
                 program = "${script}/bin/rebuild";
             };
-    }
+    };
   };
 }
