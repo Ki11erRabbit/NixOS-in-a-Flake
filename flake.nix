@@ -18,7 +18,7 @@
             paths = pkgs.lib.concatMappAttrs (_: v: v // []) (map (m: m.packages or {}) modulesList);
         };
     in {
-        packages.${system} = evalModules.packages;
+        packages.${system} = [];
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
