@@ -32,7 +32,9 @@
                 resources = mergedResources;
             };
       in {
-        defaultPackages."${system}" = evalModules { inherit modules pkgs systemName config; };
+        packages.${system}.system = evalModules.packages;
+        packages.${system}.resources = pkgs.writeClosure { root = evalModules.resources; };
+        defaultPackages."${system}".${systemName} = evalModules.packages;
 
         apps."${system}" = {
                 rebuild = let 
