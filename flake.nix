@@ -22,9 +22,6 @@
   # 4️⃣ Collect plain hook text from modules only
   hookTexts = map (m: m.hooks or "") evalModules; 
 
-  # 5️⃣ Build mainHookScript from concatenated hook text
-  mainHookScriptText = lib.concatStrings hookTexts;
-
   # 6️⃣ Build system packages
   systemPackages = pkgs.buildEnv {
     name = systemName;
@@ -41,7 +38,7 @@ in {
         set -euo pipefail
         sudo nix build .
         echo "hello"
-        ${mainHookScriptText}
+        ${lib.concatStrings hookTexts}
         echo ran hooks
       '';
     };
