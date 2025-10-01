@@ -29,7 +29,6 @@
         packages.${system}.${systemName} = result.systemPackages;
 
     };
-  };
   availConfig = { systems, pkgs }: let 
     lib = pkgs.lib;
   in {
@@ -52,5 +51,6 @@
                 type = "app";
                 program = "${script}/bin/rebuild";
             };
+  };
   };
 }
