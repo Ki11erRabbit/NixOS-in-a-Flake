@@ -20,7 +20,7 @@
         hookScriptText = ''
         #!${pkgs.stdenv.shell}
         set -e
-        '' + lib.concatStrings hookScripts;
+        '';# + lib.concatStrings hookScripts;
         mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
     in {
         packages.${system}.default = systemPackages;
@@ -29,7 +29,7 @@
                 name = "rebuild";
                 text = ''
                         set -euo pipefail
-                        sudo nix build .#system
+                        sudo nix build .
                         ${mainHookScript}/bin/mainHookScript
                     '';
                 };
