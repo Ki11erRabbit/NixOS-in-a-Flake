@@ -55,7 +55,7 @@ flake-modules.lib.mkOption ({
         pkgs.cheese
         pkgs.baobab
         pkgs.gnome-disk-utility
-        pkg.epiphany
+        pkgs.epiphany
     ] else []));
     files = [
         {
