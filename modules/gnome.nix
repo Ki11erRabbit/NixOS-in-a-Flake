@@ -5,6 +5,9 @@ in if config.services.desktopManager.gnome.enable or false then
 flake-modules.lib.mkOption ({
     pkgs = pkgs;
     packages = builtins.filter (x: !(builtins.elem x (config.gnome.excludePackages or []))) ([
+        pkgs.mesa
+        pkgs.libgbm
+        pkgs.libdrm
         pkgs.mutter
         pkgs.gnome-shell
         pkgs.gnome-control-center
