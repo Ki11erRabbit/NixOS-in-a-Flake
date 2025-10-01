@@ -9,7 +9,7 @@ flake-modules.lib.mkOption ({
     files = [
         {
             name = "dummy.txt";
-            location = /etc/dummy;
+            location = "/etc/dummy";
             text = ''
 Hello, World!
             '';
