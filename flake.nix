@@ -22,7 +22,7 @@
         #!${pkgs.stdenv.shell}
         set -e
         '' + lib.concatStrings hookScripts;
-        hookScript = pkgs.writeShellScriptBin "hookScript" hookScriptText;
+        mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
     in {
         packages.${system} = systemPackages;
         apps.${system}.rebuild = let 
@@ -31,7 +31,7 @@
                 text = ''
                         set -euo pipefail
                         sudo nix build .
-                        ${hookScript}/bin/hookScript
+                        ${mainHookScript}/bin/mainHookScript
                     '';
                 };
             in {
