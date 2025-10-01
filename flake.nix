@@ -17,11 +17,11 @@
             paths = lib.concatMap (m: m.packages or []) evalModules;
         };
         hookScripts = map (m: m.hookpath or "") evalModules;
-        hookScriptText = ''
+    in rec {
+        mainHookScriptText = ''
         #!${pkgs.stdenv.shell}
         set -e
         '' + lib.concatStrings hookScripts;
-    in rec {
         mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
         
         packages.${system}.default = systemPackages;
