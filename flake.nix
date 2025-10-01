@@ -24,13 +24,14 @@
         '' + lib.concatStrings hookScripts;
         mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
     in {
-        packages.${system}.default = systemPackages;
+        packages.${system} = {
+            system = systemPackages;
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
                 text = ''
                         set -euo pipefail
-                        sudo nix build .
+                        sudo nix build .#system
                         ${mainHookScript}/bin/mainHookScript
                     '';
                 };
