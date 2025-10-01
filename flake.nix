@@ -7,7 +7,7 @@
   };
 
   outputs = { self, flake-modules, ... }: {
-    nixSystem = { system, modules, pkgs, systemName }: let
+    mkNixSystem = { system, modules, pkgs, systemName }: let
         lib = pkgs.lib;
         modulesList = (import ./modules.nix {inherit pkgs lib; }).allModules;
 
@@ -26,23 +26,31 @@
                 };
             });
     in {
-        packages.${system}.default = result.systemPackages;
+        packages.${system}.${systemName} = result.systemPackages;
+
+    };
+  };
+  availConfig = { systems, pkgs }: let 
+    lib = pkgs.lib;
+  in {
+        packages = flake-modules.lib.mkMerge systems;
 
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
                 text = ''
                         set -euo pipefail
-                        sudo nix build .
-                        echo "hello"
+                        command="switch"
+                        system=""
+                        #if [ $# -gt 0 ]; then cmd="$1"; shift; fi
+                        if [ $# -gt 0 ]; then system="$1"; shift; fi
+                        sudo nix build ".#$system"
                         ${lib.concatStrings result.hookTexts}
-                        echo ran hooks
                     '';
                 };
             in {
                 type = "app";
                 program = "${script}/bin/rebuild";
             };
-    };
   };
 }
