@@ -2,7 +2,7 @@
 
 if config.services.dummy.enable or false then
 
-flake-modules.mkOption ({
+flake-modules.lib.mkOption ({
     packages = [];
     files = [
         {
