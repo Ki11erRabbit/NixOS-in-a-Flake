@@ -10,18 +10,17 @@
     nixSystem = { system, modules, pkgs, systemName }: let 
         lib = pkgs.lib;
         modulesList = (import ./modules.nix {inherit pkgs lib; }).modules;
-        #mergeModules = resList: lib.foldl' (a: b: lib.recursiveUpdate a b) {} resList;
         config = flake-modules.lib.mkMerge modules;
         evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib config flake-modules; } else {}) modulesList;
         systemPackages = pkgs.buildEnv {
             name = systemName;
             paths = lib.concatMap (m: m.packages or []) evalModules;
         };
-        hookScripts = map (m: "\n${m.hookscript}/bin/hookscript") evalModules;
+        hookScripts = map (m: m.hookpath) evalModules;
         hookScriptText = ''
         #!${pkgs.stdenv.shell}
         set -e
-        '';# + lib.concatStrings hookScripts;
+        '' + lib.concatStrings hookScripts;
         mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
     in {
         packages.${system}.default = systemPackages;
