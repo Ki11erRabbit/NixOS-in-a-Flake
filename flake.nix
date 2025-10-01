@@ -33,7 +33,7 @@
                 name = "rebuild";
                 text = ''
                         set -euo pipefail
-                        command="switch"
+                        #command="switch"
                         system=""
                         #if [ $# -gt 0 ]; then cmd="$1"; shift; fi
                         if [ $# -gt 0 ]; then system="$1"; shift; fi
