@@ -23,12 +23,7 @@
   hookTexts = map (m: m.hooks or "") evalModules; 
 
   # 5️⃣ Build mainHookScript from concatenated hook text
-  mainHookScriptText = ''
-    #!${pkgs.stdenv.shell}
-    set -e
-  '' + lib.concatStrings hookTexts;
-
-  mainHookScript = pkgs.writeShellScriptBin "mainHookScript" mainHookScriptText;
+  mainHookScriptText = lib.concatStrings hookTexts;
 
   # 6️⃣ Build system packages
   systemPackages = pkgs.buildEnv {
@@ -46,8 +41,7 @@ in {
         set -euo pipefail
         sudo nix build .
         echo "hello"
-        echo "${mainHookScript}/bin/mainHookScript"
-        ${mainHookScript}/bin/mainHookScript
+        ${mainHookScriptText}
         echo ran hooks
       '';
     };
