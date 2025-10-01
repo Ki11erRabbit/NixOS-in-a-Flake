@@ -26,6 +26,7 @@
     in {
         packages.${system} = {
             system = systemPackages;
+        };
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
