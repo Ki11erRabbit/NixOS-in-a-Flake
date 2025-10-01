@@ -3,6 +3,7 @@
 if config.services.dummy.enable or false then
 
 flake-modules.lib.mkOption ({
+    pkgs = pkgs;
     packages = [];
     files = [
         {
@@ -19,6 +20,7 @@ Hello, World!
 })
 else 
 flake-modules.mkOption ({
+    pkgs = pkgs;
     packages = [];
     files = [
     ];
