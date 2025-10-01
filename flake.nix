@@ -33,7 +33,7 @@
                 name = "rebuild";
                 text = ''
                         set -euo pipefail
-                        sudo nix build .
+                        sudo nix --impure build .
                         echo "hello"
                         ${lib.concatStrings result.hookTexts}
                         echo ran hooks
