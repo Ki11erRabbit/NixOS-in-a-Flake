@@ -16,11 +16,11 @@
             name = systemName;
             paths = lib.concatMap (m: m.packages or []) evalModules;
         };
-        hookScripts = map (m: m.hookpath) evalModules;
+        hookScripts = map (m: m.hookpath or "") evalModules;
         hookScriptText = ''
         #!${pkgs.stdenv.shell}
         set -e
-        '';# + lib.concatStrings hookScripts;
+        '' + lib.concatStrings hookScripts;
         mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
     in {
         packages.${system}.default = systemPackages;
@@ -30,7 +30,10 @@
                 text = ''
                         set -euo pipefail
                         sudo nix build .
+                        echo "hello"
+                        echo "${mainHookScript}/bin/mainHookScript"
                         ${mainHookScript}/bin/mainHookScript
+                        echo ran hooks
                     '';
                 };
             in {
