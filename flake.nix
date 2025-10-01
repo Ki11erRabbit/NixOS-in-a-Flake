@@ -12,19 +12,21 @@
         modulesList = (import ./modules.nix {inherit pkgs lib; }).modules;
         config = flake-modules.lib.mkMerge modules;
         evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib config flake-modules; } else {}) modulesList;
+        hooks = map (m: m.hooks or "") evalModules;
+        
+        mainHookScriptText = ''
+        #!${pkgs.stdenv.shell}
+        set -e
+        '' + lib.concatStrings hooks;
+        mainHookScript = pkgs.writeShellScriptBin "mainHookScript" mainHookScriptText;
+
         systemPackages = pkgs.buildEnv {
             name = systemName;
             paths = lib.concatMap (m: m.packages or []) evalModules;
         };
-        hookScripts = map (m: m.hookpath or "") evalModules;
-    in rec {
-        mainHookScriptText = ''
-        #!${pkgs.stdenv.shell}
-        set -e
-        '' + lib.concatStrings hookScripts;
-        mainHookScript = pkgs.writeShellScriptBin "mainHookScript" mainHookScriptText;
-        
+    in {
         packages.${system}.default = systemPackages;
+
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
