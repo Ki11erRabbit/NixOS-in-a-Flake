@@ -13,6 +13,7 @@ flake-modules.lib.mkOption ({
         pkgs.evolution-data-server
         
     ] ++ (if config.gnome.core-apps or false then [
+        pkgs.gnome-backgrounds
         pkgs.gnome-control-center
         pkgs.gnome-settings-daemon
         pkgs.gnome-session
