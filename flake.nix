@@ -28,12 +28,6 @@
     in {
         packages.${system}.${systemName} = result.systemPackages;
 
-    };
-  availConfig = { systems, pkgs }: let 
-    lib = pkgs.lib;
-  in {
-        packages = flake-modules.lib.mkMerge systems;
-
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
@@ -51,6 +45,15 @@
                 type = "app";
                 program = "${script}/bin/rebuild";
             };
+    };
+  availConfig = { systems, pkgs }: let 
+    lib = pkgs.lib;
+    mergedModules = flake-modules.lib.mkMerge systems; 
+  in {
+        packages = mergedModules.packages;
+        
+        apps = mergedModules.apps;
+
   };
   };
 }
