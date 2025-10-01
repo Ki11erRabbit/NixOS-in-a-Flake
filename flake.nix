@@ -21,7 +21,7 @@
         hookScriptText = ''
         #!${pkgs.stdenv.shell}
         set -e
-        '' + concatStrings hookScripts;
+        '' + lib.concatStrings hookScripts;
         hookScript = lib.writeShellScriptBin "hookScript" hookScriptText;
     in {
         packages.${system} = systemPackages;
