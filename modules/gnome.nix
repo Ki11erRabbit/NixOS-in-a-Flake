@@ -12,7 +12,7 @@ flake-modules.lib.mkOption ({
         pkgs.gnome-session
         pkgs.evolution-data-server
         
-    ] + if config.gnome.core-apps or false then [
+    ] + (if config.gnome.core-apps or false then [
         pkgs.gnome-control-center
         pkgs.gnome-settings.daemon
         pkgs.gnome-session
@@ -34,7 +34,7 @@ flake-modules.lib.mkOption ({
         
         pkgs.gnome-tweaks
 
-    ] else [] + if config.gnome.extra-apps or false then [
+    ] else []) + (if config.gnome.extra-apps or false then [
         pkgs.file-roller
         pkgs.sushi
         pkgs.seahorse
@@ -56,7 +56,7 @@ flake-modules.lib.mkOption ({
         pkgs.baobab
         pkgs.gnome-disk-utility
         pkg.epiphany
-    ] else []);
+    ] else []));
     files = [
         {
             name = "gnome-wayland.desktop";
