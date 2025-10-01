@@ -20,7 +20,7 @@ Hello, World!
     ];
 })
 else 
-flake-modules.mkOption ({
+flake-modules.lib.mkOption ({
     pkgs = pkgs;
     packages = [];
     files = [
