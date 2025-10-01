@@ -35,7 +35,6 @@
                         sudo nix build .
                         echo "hello"
                         echo "${mainHookScript}/bin/mainHookScript"
-                        ${mainHookScript}/bin/mainHookScript
                         echo ran hooks
                     '';
                 };
