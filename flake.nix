@@ -9,7 +9,7 @@
   outputs = { self, flake-modules, ... }: {
     nixSystem = { system, modules, pkgs, systemName }: let 
         lib = pkgs.lib;
-        modulesList = (import ./modules.nix {inherit pkgs lib; }).modules;
+        modulesList = (import ./modules.nix {inherit pkgs lib; }).allModules;
         config = flake-modules.lib.mkMerge modules;
         evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib config flake-modules; } else {}) modulesList;
         hooks = map (m: m.hooks or "") evalModules;

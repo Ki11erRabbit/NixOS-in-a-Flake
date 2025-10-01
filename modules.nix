@@ -4,5 +4,5 @@ let
         (import ./modules/dummy.nix)
     ];
 in {
-    modules = allModules;
+    allModules = allModules;
 }
