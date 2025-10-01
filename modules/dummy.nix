@@ -1,6 +1,7 @@
 { config, pkgs, lib, flake-modules, ... }:
-
-if config.services.dummy.enable or false then
+let 
+    bad = builtins.trace (toString config) config;
+in if config.services.dummy.enable or false then
 
 flake-modules.lib.mkOption ({
     pkgs = pkgs;
