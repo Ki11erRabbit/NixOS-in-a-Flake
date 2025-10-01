@@ -12,7 +12,7 @@ flake-modules.lib.mkOption ({
         pkgs.gnome-session
         pkgs.evolution-data-server
         
-    ] + (if config.gnome.core-apps or false then [
+    ] ++ (if config.gnome.core-apps or false then [
         pkgs.gnome-control-center
         pkgs.gnome-settings-daemon
         pkgs.gnome-session
@@ -31,7 +31,7 @@ flake-modules.lib.mkOption ({
         pkgs.gnome-bluetooth
         pkgs.gnome-terminal
         pkgs.adwaita-icon-theme
-    ] else []) + (if config.gnome.extra-apps or false then [
+    ] else []) ++ (if config.gnome.extra-apps or false then [
         pkgs.file-roller
         pkgs.sushi
         pkgs.seahorse
@@ -279,7 +279,7 @@ flake-modules.lib.mkOption ({
         pkgs.gnome-bluetooth
         pkgs.gnome-terminal
         pkgs.adwaita-icon-theme
-    ] else []) + (if config.gnome.extra-apps or false then [
+    ] else []) ++ (if config.gnome.extra-apps or false then [
         pkgs.file-roller
         pkgs.sushi
         pkgs.seahorse
