@@ -17,10 +17,10 @@
   config = flake-modules.lib.mkMerge modules;
 
   # 3️⃣ Evaluate all modules (they can reference config)
-  evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib config flake-modules; } else m) modulesList;
+  evalModules = map (m: if builtins.isFunction m then m { inherit pkgs lib config flake-modules; } else {}) modulesList;
 
   # 4️⃣ Collect plain hook text from modules only
-  hookTexts = map (m: m.hooktext or ""); 
+  hookTexts = map (m: m.hooks or "") evalModules; 
 
   # 5️⃣ Build mainHookScript from concatenated hook text
   mainHookScriptText = ''
