@@ -8,13 +8,13 @@ flake-modules.lib.mkOption ({
         pkgs.mutter
         pkgs.gnome-shell
         pkgs.gnome-control-center
-        pkgs.gnome-settings.daemon
+        pkgs.gnome-settings-daemon
         pkgs.gnome-session
         pkgs.evolution-data-server
         
     ] + (if config.gnome.core-apps or false then [
         pkgs.gnome-control-center
-        pkgs.gnome-settings.daemon
+        pkgs.gnome-settings-daemon
         pkgs.gnome-session
         pkgs.evolution-data-server
         pkgs.nautilus
@@ -31,9 +31,6 @@ flake-modules.lib.mkOption ({
         pkgs.gnome-bluetooth
         pkgs.gnome-terminal
         pkgs.adwaita-icon-theme
-        
-        pkgs.gnome-tweaks
-
     ] else []) + (if config.gnome.extra-apps or false then [
         pkgs.file-roller
         pkgs.sushi
@@ -265,7 +262,46 @@ X-GDM-CanRunHeadless=true
 else 
 flake-modules.lib.mkOption ({
     pkgs = pkgs;
-    packages = [];
+    packages = builtins.filter (x: !(builtins.elem x (config.gnome.excludePackages or []))) (
+    (if config.gnome.core-apps or false then [
+        pkgs.evolution-data-server
+        pkgs.nautilus
+        pkgs.gedit
+        pkgs.gnome-text-editor
+        pkgs.evince
+        pkgs.gnome-color-manager
+        pkgs.gnome-contacts
+        pkgs.gnome-user-docs
+        pkgs.yelp
+        pkgs.gnome-console
+        pkgs.eog
+        pkgs.totem
+        pkgs.gnome-bluetooth
+        pkgs.gnome-terminal
+        pkgs.adwaita-icon-theme
+    ] else []) + (if config.gnome.extra-apps or false then [
+        pkgs.file-roller
+        pkgs.sushi
+        pkgs.seahorse
+        pkgs.localsearch
+        pkgs.dconf-editor
+        pkgs.gnome-calculator
+        pkgs.gnome-calendar
+        pkgs.gnome-characters
+        pkgs.gnome-system-monitor
+        pkgs.gnome-tweaks
+        pkgs.gnome-user-share
+        pkgs.gnome-weather
+        pkgs.evolution
+        pkgs.gnome-font-viewer
+        pkgs.gnome-photos
+        pkgs.shotwell
+        pkgs.gnome-music
+        pkgs.cheese
+        pkgs.baobab
+        pkgs.gnome-disk-utility
+        pkgs.epiphany
+    ] else []));
     files = [
     ];
     hooks = [
