@@ -24,7 +24,7 @@
         '' + lib.concatStrings hookScripts;
         mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
     in {
-        packages.${system} = systemPackages;
+        packages.${system}.default = systemPackages;
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
                 name = "rebuild";
