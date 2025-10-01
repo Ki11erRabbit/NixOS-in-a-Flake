@@ -21,8 +21,9 @@
         #!${pkgs.stdenv.shell}
         set -e
         '' + lib.concatStrings hookScripts;
+    in rec {
         mainHookScript = pkgs.writeShellScriptBin "mainHookScript" hookScriptText;
-    in {
+        
         packages.${system}.default = systemPackages;
         apps.${system}.rebuild = let 
             script = pkgs.writeShellApplication {
